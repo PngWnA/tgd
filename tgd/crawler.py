@@ -53,7 +53,7 @@ class Crawler:
             
 
     def verbose(self, contents=True, comments=False):
-        for meta in self.articles.get():
+        for meta in self.articles:
             # Contents
             target_url = base_url + meta.href
             res = requests.get(target_url).text
@@ -123,8 +123,11 @@ class Articles:
         out = "\n".join(map(str, self.articles))
         return out
 
-    def get(self):
-        return self.articles
+    def __iter__(self):
+        return self.articles.__iter__()
+
+    def __next__(self):
+        return self.articles.__next__()
 
     # Ignored duplicate insert problem -> re-initiate the crawler to crawl again 
     def append(self, article: Article):
